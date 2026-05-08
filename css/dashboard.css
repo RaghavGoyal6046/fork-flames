@@ -219,5 +219,59 @@
 
 /* Role Based Access */
 .owner-only {
-    display: none !important;
+    display: none;
+}
+
+/* Mobile Responsiveness for Dashboard */
+@media (max-width: 992px) {
+    .dash-sidebar {
+        width: 70px;
+    }
+    .dash-sidebar span, .dash-sidebar .badge, .dash-logo {
+        display: none;
+    }
+    .dash-main {
+        margin-left: 70px;
+    }
+    .dash-link {
+        justify-content: center;
+        padding: 15px 0;
+    }
+    .dash-link i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dash-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .dash-nav {
+        flex-direction: row;
+        padding: 0;
+    }
+    .dash-link {
+        padding: 15px 20px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    .dash-link.active {
+        border-bottom-color: var(--primary);
+    }
+    .dash-main {
+        margin-left: 0;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .data-table-container {
+        overflow-x: auto;
+    }
+    .data-table {
+        min-width: 600px;
+    }
 }

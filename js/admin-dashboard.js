@@ -70,7 +70,7 @@ function setupRoleUI(user) {
 
     if (user.role === 'owner') {
         const ownerElements = document.querySelectorAll('.owner-only');
-        ownerElements.forEach(el => el.style.setProperty('display', '', 'important')); 
+        ownerElements.forEach(el => el.style.display = 'block'); 
     } else if (user.role === 'staff') {
         // Staff doesn't see owner stats, so redirect them to Orders section by default
         const overviewLink = document.querySelector('.dash-link[data-section="owner-stats"]');
