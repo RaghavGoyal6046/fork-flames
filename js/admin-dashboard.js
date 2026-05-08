@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userStr = localStorage.getItem('ff_user');
     if (!userStr) return window.location.href = 'login.html';
     
-    const user = JSON.parse(userStr);
+    const user = JSON.parse(userStr || "{}");
     
     // Setup UI based on role
     setupRoleUI(user);
