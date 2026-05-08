@@ -216,3 +216,8 @@
 .action-btn.accept { color: var(--success); }
 .action-btn.reject { color: var(--error); }
 .action-btn:hover { background: rgba(255,255,255,0.1); }
+
+/* Role Based Access */
+.owner-only {
+    display: none !important;
+}

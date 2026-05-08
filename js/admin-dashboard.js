@@ -70,7 +70,15 @@ function setupRoleUI(user) {
 
     if (user.role === 'owner') {
         const ownerElements = document.querySelectorAll('.owner-only');
-        ownerElements.forEach(el => el.style.display = ''); // reset display
+        ownerElements.forEach(el => el.style.setProperty('display', '', 'important')); 
+    } else if (user.role === 'staff') {
+        // Staff doesn't see owner stats, so redirect them to Orders section by default
+        const overviewLink = document.querySelector('.dash-link[data-section="owner-stats"]');
+        if (overviewLink) overviewLink.style.display = 'none';
+        
+        // Auto-click Orders section for staff
+        const ordersLink = document.querySelector('.dash-link[data-section="orders-section"]');
+        if (ordersLink) ordersLink.click();
     }
 }
 
