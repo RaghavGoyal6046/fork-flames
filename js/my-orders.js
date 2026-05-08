@@ -14,7 +14,7 @@ async function fetchMyOrders() {
     if (!token) return window.location.href = 'login.html';
 
     try {
-        const res = await fetch(`${window.API_URL}/api/orders/myorders`, {
+        const res = await fetch(`${window.API_URL}/orders/myorders`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -115,7 +115,7 @@ async function submitReview() {
 
     const token = localStorage.getItem('ff_token');
     try {
-        const res = await fetch(`${window.API_URL}/api/reviews`, {
+        const res = await fetch(`${window.API_URL}/reviews`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

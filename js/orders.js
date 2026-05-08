@@ -15,7 +15,7 @@ async function fetchLatestOrder() {
     if (!token) return window.location.href = 'login.html';
 
     try {
-        const res = await fetch(`${window.API_URL}/api/orders/myorders`, {
+        const res = await fetch(`${window.API_URL}/orders/myorders`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();

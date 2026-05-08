@@ -44,7 +44,7 @@ async function handleBookingSubmit(e) {
     btn.disabled = true;
 
     try {
-        const res = await fetch(`${window.API_URL}/api/bookings`, {
+        const res = await fetch(`${window.API_URL}/bookings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

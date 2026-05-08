@@ -217,7 +217,7 @@ async function processCheckout() {
     }));
 
     try {
-        const res = await fetch(`${window.API_URL}/api/orders`, {
+        const res = await fetch(`${window.API_URL}/orders`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',

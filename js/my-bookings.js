@@ -15,7 +15,7 @@ async function fetchMyBookings() {
     }
 
     try {
-        const res = await fetch(`${window.API_URL}/api/bookings/mybookings`, {
+        const res = await fetch(`${window.API_URL}/bookings/mybookings`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
