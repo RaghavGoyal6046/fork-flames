@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Fork & Flames</title>
+    
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-fire logo-icon" style="color: #FF6B35;"></i>
+                Fork & Flames
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="menu.html">Menu</a>
+            </div>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-primary" id="auth-btn">
+                    Sign In <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container layout-grid cart-layout">
+        
+        <!-- Cart Items -->
+        <main class="cart-main">
+            <h1 class="cart-title">Your Cart</h1>
+            
+            <div id="empty-cart-msg" class="empty-cart" style="display: none;">
+                <i class="fa-solid fa-basket-shopping" style="font-size: 4rem; color: var(--glass-border); margin-bottom: 20px;"></i>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything to your cart yet.</p>
+                <a href="menu.html" class="btn btn-primary" style="margin-top: 20px;">Browse Menu</a>
+            </div>
+
+            <div class="cart-items-container" id="cart-items-container">
+                <!-- Populated via JS -->
+            </div>
+        </main>
+
+        <!-- Checkout Summary -->
+        <aside class="checkout-sidebar glass-panel" id="checkout-sidebar">
+            <h3 style="margin-bottom: 24px; border-bottom: 1px solid var(--glass-border); padding-bottom: 16px;">Order Summary</h3>
+            <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="summary-subtotal">₹0.00</span>
+            </div>
+            
+            <!-- Order Type Toggle -->
+            <div class="form-group" style="margin: 15px 0;">
+                <label class="form-label">Order Type</label>
+                <select id="order-type-select" class="form-control" style="padding: 8px;">
+                    <option value="delivery">Delivery</option>
+                    <option value="dine_in">Dine-In (Table)</option>
+                </select>
+            </div>
+
+            <!-- Table Number Input (Hidden by default) -->
+            <div class="form-group" id="table-number-group" style="display: none; margin-bottom: 15px;">
+                <label class="form-label">Table Number</label>
+                <input type="text" id="table-number" class="form-control" placeholder="e.g. Table 5" style="padding: 8px;">
+            </div>
+
+            <div class="summary-row" id="delivery-fee-line">
+                <span>Delivery Fee</span>
+                <span id="summary-delivery">₹40.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Taxes & Fees</span>
+                <span id="summary-tax">₹0.00</span>
+            </div>
+            <div class="summary-row discount-row" id="discount-row" style="display: none;">
+                <span>Discount <span class="badge" style="background:var(--success); color:white" id="coupon-badge">SAVE20</span></span>
+                <span id="summary-discount">-₹0.00</span>
+            </div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="summary-total">₹0.00</span>
+            </div>
+
+            <div class="coupon-section">
+                <div class="input-group">
+                    <input type="text" id="coupon-input" class="form-control" placeholder="Promo Code (try: SAVE20)">
+                    <button class="btn btn-outline" id="apply-coupon-btn">Apply</button>
+                </div>
+                <div id="coupon-msg" class="coupon-msg"></div>
+            </div>
+
+            <div class="payment-section" style="margin-top: 30px;">
+                <h4 style="margin-bottom: 16px;">Payment Method</h4>
+                <div class="payment-mock">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="card">
+                        <i class="fa-brands fa-cc-visa"></i> **** 4242
+                    </label>
+                    <label class="payment-option active" style="margin-top: 10px;">
+                        <input type="radio" name="payment" value="cod" checked>
+                        <i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" id="checkout-btn" style="margin-top: 30px; font-size: 1.2rem; padding: 16px;">
+                Place Order <i class="fa-solid fa-lock" style="font-size: 0.9em; margin-left: 5px;"></i>
+            </button>
+        </aside>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div class="processing-overlay" id="processing-overlay">
+        <div class="spinner"></div>
+        <h2 style="margin-top: 20px;">Processing Payment...</h2>
+        <p style="color: var(--text-muted);">Please do not refresh the page.</p>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

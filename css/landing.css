@@ -1,0 +1,341 @@
+/* Landing Page Specific Styles */
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 80px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at 80% 30%, rgba(255, 107, 53, 0.15) 0%, rgba(15, 17, 23, 1) 60%);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-content h1 {
+  font-size: 4.5rem;
+  margin-bottom: 24px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  max-width: 500px;
+}
+
+.hero-image-wrapper {
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transform: perspective(1000px) rotateY(-10deg);
+  transition: transform 0.5s ease;
+}
+
+.hero-image-wrapper:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.hero-image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.hero-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(15,17,23,0.8) 100%);
+}
+
+/* Sections Common */
+.section {
+  padding: 100px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* Categories Section */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+}
+
+.category-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  background: var(--bg-surface-light);
+  box-shadow: 0 10px 20px rgba(255, 107, 53, 0.1);
+}
+
+.category-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.category-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Trending Section */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.food-card {
+  background: var(--bg-surface);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-normal);
+}
+
+.food-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.food-card-img {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-surface-light);
+}
+
+.food-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.food-card:hover .food-card-img img {
+  transform: scale(1.08);
+}
+
+.food-card-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(15, 17, 23, 0.8);
+  backdrop-filter: blur(4px);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.food-card-content {
+  padding: 24px;
+}
+
+.food-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.food-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.food-card-restaurant {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.food-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--warning);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.food-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.food-card-price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.food-card-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-surface-light);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all var(--transition-fast);
+}
+
+.food-card-btn:hover {
+  background: var(--primary);
+  transform: scale(1.1);
+}
+
+/* AI Recommendations Section */
+.ai-section {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-base) 0%, rgba(26, 29, 46, 0.5) 100%);
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.15); /* Purple tint for AI */
+  color: #C084FC;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-surface);
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-brand p {
+  color: var(--text-muted);
+  margin-top: 16px;
+  max-width: 300px;
+}
+
+.footer-links h4 {
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+
+.footer-links ul li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  padding-left: 5px;
+}
+
+.footer-newsletter p {
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid var(--glass-border);
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-content p {
+    margin: 0 auto 40px;
+  }
+  .hero-image-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    transform: none;
+  }
+  .hero-image-wrapper:hover {
+    transform: none;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  .nav-links {
+    display: none; /* Mobile menu needed */
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}

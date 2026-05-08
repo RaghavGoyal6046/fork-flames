@@ -1,0 +1,190 @@
+/* Auth Page Specific Styles */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.1) 0%, var(--bg-base) 100%);
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 480px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+}
+
+.auth-logo {
+    justify-content: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 30px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.auth-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.auth-tab:hover:not(.active) {
+    color: var(--text-main);
+}
+
+.auth-form {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.auth-form.active-form {
+    display: block;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.input-with-icon .form-control {
+    padding-left: 45px;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+}
+
+.forgot-link {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* Custom Checkbox */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Select Styling */
+.select-style {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23A0A5BD%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px top 50%;
+    background-size: 12px auto;
+}
+
+.demo-creds {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    border: 1px dashed var(--glass-border);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+    }
+}

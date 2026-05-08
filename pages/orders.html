@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Order Tracking | Fork & Flames</title>
+    
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tracking-header {
+            padding: 100px 0 40px;
+            text-align: center;
+        }
+
+        .order-id-badge {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200') center/cover;
+            border-radius: 20px;
+            position: relative;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .map-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 17, 23, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delivery-eta {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .delivery-eta h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        /* Stepper */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 50px 0;
+            padding: 0 20px;
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 40px;
+            right: 40px;
+            height: 4px;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+
+        .stepper-progress {
+            position: absolute;
+            top: 24px;
+            left: 40px;
+            height: 4px;
+            background: var(--primary);
+            z-index: 2;
+            transition: width 0.5s ease;
+        }
+
+        .step {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            width: 80px;
+        }
+
+        .step-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 4px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-icon {
+            background: var(--primary);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .step.completed .step-icon {
+            background: var(--success);
+            border-color: rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .step.active .step-label, .step.completed .step-label {
+            color: var(--text-main);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .stepper { flex-direction: column; gap: 30px; align-items: flex-start; padding-left: 40px; }
+            .stepper::before { left: 65px; top: 0; bottom: 0; width: 4px; height: 100%; right: auto; }
+            .stepper-progress { left: 65px; top: 0; width: 4px; height: 0; transition: height 0.5s ease; }
+            .step { display: flex; align-items: center; width: 100%; text-align: left; gap: 20px; }
+            .step-icon { margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar scrolled">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fa-solid fa-fire logo-icon"></i>
+                Fork & Flames
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+            </div>
+            <div class="nav-actions">
+                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--success);">
+                    <i class="fa-solid fa-circle" style="font-size:0.5em; vertical-align: middle;"></i> Live System
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tracking-header">
+            <div class="order-id-badge" id="display-order-id">ORD-XXXXXX</div>
+            <h1>Track Your Order</h1>
+            <p>Real-time updates straight from the kitchen.</p>
+        </div>
+
+        <div class="map-placeholder">
+            <div class="map-overlay">
+                <div class="delivery-eta">
+                    <p style="color: var(--text-muted); margin-bottom: 5px; font-weight: 600;">Estimated Arrival</p>
+                    <h2 id="eta-time">25-30 min</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 40px; margin-bottom: 60px;">
+            <div class="stepper" id="stepper">
+                <div class="stepper-progress" id="stepper-progress"></div>
+                
+                <div class="step" data-step="0">
+                    <div class="step-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div class="step-label">Placed</div>
+                </div>
+                
+                <div class="step" data-step="1">
+                    <div class="step-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="step-label">Confirmed</div>
+                </div>
+                
+                <div class="step" data-step="2">
+                    <div class="step-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div class="step-label">Preparing</div>
+                </div>
+                
+                <div class="step" data-step="3">
+                    <div class="step-icon"><i class="fa-solid fa-motorcycle"></i></div>
+                    <div class="step-label">On the way</div>
+                </div>
+                
+                <div class="step" data-step="4">
+                    <div class="step-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                    <div class="step-label">Delivered</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--glass-border);">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
+                    <i class="fa-solid fa-plug"></i> Simulated Socket.io Connection. Status advances automatically for demo.
+                </p>
+                <a href="../index.html" class="btn btn-outline">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/orders.js"></script>
+</body>
+</html>
