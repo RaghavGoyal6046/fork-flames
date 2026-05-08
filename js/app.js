@@ -43,7 +43,20 @@ function checkAuthState() {
             ? dashboardLink.replace('pages/', '') 
             : dashboardLink;
             
-        // Add logout option next to dashboard link if needed, but for now we'll rely on dashboard logout.
+        // Add Logout button
+        if (!document.getElementById('logout-btn')) {
+            const logoutBtn = document.createElement('button');
+            logoutBtn.id = 'logout-btn';
+            logoutBtn.className = 'btn btn-outline';
+            logoutBtn.style.marginLeft = '10px';
+            logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>';
+            logoutBtn.onclick = (e) => window.logout(e);
+            authBtn.parentNode.appendChild(logoutBtn);
+        }
+    } else {
+        // User not logged in, ensure logout button is removed if it exists
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) logoutBtn.remove();
     }
 }
 

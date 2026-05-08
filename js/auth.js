@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
-            const role = document.getElementById('signup-role').value;
 
             const btn = signupForm.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
@@ -76,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await fetch(`${window.API_URL}/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password, role })
+                    body: JSON.stringify({ name, email, password })
                 });
                 
                 const data = await res.json();

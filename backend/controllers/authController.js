@@ -29,11 +29,15 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
+    // Bootstrap: First user becomes owner
+    const userCount = await User.countDocuments();
+    const finalRole = userCount === 0 ? 'owner' : 'customer';
+
     const user = await User.create({
       name,
       email,
       password,
-      role: 'customer' // Always default to customer for public registration
+      role: finalRole
     });
 
     sendTokenResponse(user, 201, res);
