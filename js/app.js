@@ -3,7 +3,7 @@
  * Handles Navbar scroll, Auth state checking, and Cart count
  */
 
-window.API_URL = `${window.API_URL}`;
+window.API_URL = '/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Navbar Scroll Effect
