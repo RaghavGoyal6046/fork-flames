@@ -26,7 +26,6 @@ COPY index.html ./
 COPY css/ ./css/
 COPY js/ ./js/
 COPY pages/ ./pages/
-COPY assets/ ./assets/
 
 # Ensure uploads directory exists
 RUN mkdir -p /app/backend/uploads && chown -R appuser:appgroup /app
