@@ -1,0 +1,39 @@
+services:
+  # ── MongoDB ──────────────────────────────────────
+  mongo:
+    image: mongo:6.0
+    container_name: forkflames-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - forkflames-net
+
+  # ── Node.js App ──────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: forkflames-app
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override MONGO_URI to point at the Docker mongo service
+      MONGO_URI: mongodb://mongo:27017/feastflow
+      NODE_ENV: production
+    depends_on:
+      - mongo
+    networks:
+      - forkflames-net
+
+volumes:
+  mongo_data:
+
+networks:
+  forkflames-net:
+    driver: bridge
