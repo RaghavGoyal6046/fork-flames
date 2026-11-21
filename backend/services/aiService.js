@@ -73,7 +73,7 @@ Respond in STRICT JSON with this exact schema:
   ]
 }`;
 
-  const candidateModels = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash'];
+  const candidateModels = ['gemini-3.5-flash-lite', 'gemini-3.5-flash'];
   let lastError = null;
 
   for (const model of candidateModels) {
@@ -92,7 +92,7 @@ Respond in STRICT JSON with this exact schema:
             responseMimeType: 'application/json'
           }
         }),
-        signal: AbortSignal.timeout(10000) // 10 second timeout per attempt
+        signal: AbortSignal.timeout(4500) // 4.5 second timeout per attempt
       });
 
       if (!response.ok) {
