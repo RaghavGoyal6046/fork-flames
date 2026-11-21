@@ -10,10 +10,11 @@ Your primary objective is to understand the customer's mood, emotional state, cr
 
 STRICT GROUNDING & ANTI-HALLUCINATION RULES:
 1. ABSOLUTE ZERO HALLUCINATION: You must ONLY recommend dishes that explicitly exist in the provided MENU CATALOG. Never suggest dishes outside this list.
-2. EXACT MATCHING: Use the exact 'id' and 'name' as provided in the catalog.
-3. CONVERSATIONAL EMPATHY: Write a warm, friendly, natural 1-2 sentence intro addressing their exact mood/craving.
-4. PERSONALIZED REASONING: For each recommended dish, provide a 1-sentence personalized explanation why this specific dish matches their mood.
-5. STRICT JSON ONLY: Output valid JSON adhering strictly to the response schema.`;
+2. EXACT DISH & CRAVING MATCHING: If the customer specifically mentions a dish, ingredient, or craving (e.g. "Truffle Mushroom Pizza", "Dal Makhani", "Dim Sum", "Burger", "Biryani"), you MUST include that exact dish from the catalog as your top recommendation!
+3. EXACT CATALOG IDs: Use the exact 'id' and 'name' as provided in the catalog.
+4. CONVERSATIONAL EMPATHY: Write a warm, friendly, natural 1-2 sentence intro addressing their exact mood/craving.
+5. PERSONALIZED REASONING: For each recommended dish, provide a 1-sentence personalized explanation why this specific dish matches their mood or craving.
+6. STRICT JSON ONLY: Output valid JSON adhering strictly to the response schema.`;
 
 /**
  * Main recommendation entry point
@@ -137,11 +138,91 @@ Respond in STRICT JSON with this exact schema:
 
 /**
  * Heuristic & Semantic Mood Fallback Engine
- * Uses NLP keyword parsing and mood vector matching.
+ * 1. Checks for Direct Dish / Ingredient Mention in User Query (Zero Hallucination).
+ * 2. If direct dishes are found, prioritizes them with complementary pairings.
+ * 3. Otherwise matches user emotional & craving keywords to mood profiles.
  */
 function getHeuristicRecommendations(userMessage, menuItems) {
-  const text = (userMessage || '').toLowerCase();
+  const text = (userMessage || '').toLowerCase().trim();
 
+  // 1. DIRECT ITEM & INGREDIENT MATCHING
+  // Check if user specifically asked for a dish by name or key ingredient
+  const directMatches = [];
+
+  for (const item of menuItems) {
+    const itemNameLower = item.name.toLowerCase();
+    const itemWords = itemNameLower.split(/\s+/).filter(w => w.length > 2 && !['and', 'with', 'the', 'pcs'].includes(w));
+    
+    let score = 0;
+    // Exact or near-exact dish name mentioned in user query
+    if (text.includes(itemNameLower)) {
+      score += 100;
+    } else {
+      // Substring / word matching
+      for (const word of itemWords) {
+        if (text.includes(word)) {
+          score += 20;
+        }
+      }
+    }
+
+    if (score > 0) {
+      directMatches.push({ item, score });
+    }
+  }
+
+  // If user explicitly asked for specific dish(es)
+  if (directMatches.length > 0) {
+    directMatches.sort((a, b) => b.score - a.score);
+    const topItem = directMatches[0].item;
+    
+    // Pick top matched item + complementary items from same category or dessert/drink
+    const recommendations = [
+      {
+        id: topItem._id,
+        name: topItem.name,
+        category: topItem.category,
+        price: topItem.price,
+        image: topItem.image,
+        description: topItem.description,
+        reason: `Directly matches your craving for ${topItem.name} — freshly prepared with artisanal ingredients.`
+      }
+    ];
+
+    // Add up to 2 complementary items: prioritize SAME category first, then drinks/dessert
+    const sameCategoryItems = menuItems.filter(m => 
+      m._id.toString() !== topItem._id.toString() && m.category === topItem.category
+    );
+    const drinkAndDessertItems = menuItems.filter(m => 
+      m._id.toString() !== topItem._id.toString() && 
+      (m.category === 'Artisanal Desserts' || m.category === 'Beverages & Shakes')
+    );
+    const complementary = [...sameCategoryItems, ...drinkAndDessertItems];
+
+    for (const comp of complementary) {
+      if (recommendations.length >= 3) break;
+      recommendations.push({
+        id: comp._id,
+        name: comp.name,
+        category: comp.category,
+        price: comp.price,
+        image: comp.image,
+        description: comp.description,
+        reason: comp.category === topItem.category 
+          ? `Another signature favorite from our ${topItem.category} kitchen.`
+          : `A refreshing culinary pairing to complement your meal.`
+      });
+    }
+
+    return {
+      mood: `${topItem.category} Selection`,
+      message: `We found exactly what you're craving! Here is our chef's preparation of ${topItem.name} along with delicious pairings.`,
+      recommendations,
+      source: 'smart-catalog-matcher'
+    };
+  }
+
+  // 2. MOOD & EMOTIONAL KEYWORD MATCHING
   const MOOD_PROFILES = [
     {
       keywords: ['stress', 'tired', 'exhausted', 'sad', 'comfort', 'relax', 'long day', 'cozy', 'warm', 'home', 'peace', 'heavy'],
@@ -174,13 +255,13 @@ function getHeuristicRecommendations(userMessage, menuItems) {
       preferredDishes: ['Crispy Masala Dosa', 'Idli & Medu Vada Combo', 'Kesari Mango Lassi']
     },
     {
-      keywords: ['pizza', 'pasta', 'italian', 'cheese', 'cheesy', 'alfredo', 'margherita', 'sourdough', 'fettuccine', 'arbiatta'],
+      keywords: ['pizza', 'pasta', 'italian', 'cheese', 'cheesy', 'alfredo', 'margherita', 'sourdough', 'fettuccine', 'arbiatta', 'mushroom', 'truffle'],
       mood: 'Italian Artisan & Wood-Fired Cravings',
       message: 'Melted buffalo mozzarella, fresh basil, and hand-rolled pasta — perfect for a cozy European dining experience!',
-      preferredDishes: ['Classic Margherita Pizza', 'Creamy Fettuccine Alfredo', 'Farmhouse Veggie Supreme Pizza', 'Cheesy Garlic Sourdough Bread']
+      preferredDishes: ['Truffle Mushroom Pizza', 'Classic Margherita Pizza', 'Creamy Fettuccine Alfredo', 'Farmhouse Veggie Supreme Pizza']
     },
     {
-      keywords: ['asian', 'chinese', 'thai', 'noodles', 'dim sum', 'dumpling', 'pad thai', 'schezwan', 'wok', 'tofu', 'spring roll'],
+      keywords: ['asian', 'chinese', 'thai', 'noodles', 'dim sum', 'dumpling', 'pad thai', 'schezwan', 'wok', 'tofu', 'spring roll', 'momos'],
       mood: 'Pan-Asian Wok & Dim Sum Delights',
       message: 'Aromatic wok-tossed noodles, delicate steamed dumplings, and authentic sweet-savory Thai sauces!',
       preferredDishes: ['Steamed Vegetable Dim Sum', 'Authentic Pad Thai Noodles', 'Hakka Vegetable Noodles', 'Spicy Schezwan Fried Rice']

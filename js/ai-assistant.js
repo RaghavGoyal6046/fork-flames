@@ -237,9 +237,14 @@
       `).join('');
     }
 
+    const engineLabel = data.source === 'gemini-ai' 
+      ? '<span class="flames-engine-badge" style="display:inline-block; font-size:0.7rem; color:#A78BFA; margin-bottom:6px;"><i class="fa-solid fa-sparkles"></i> Powered by Google Gemini AI</span>'
+      : '<span class="flames-engine-badge" style="display:inline-block; font-size:0.7rem; color:#38BDF8; margin-bottom:6px;"><i class="fa-solid fa-bolt"></i> Kitchen Smart Matcher</span>';
+
     botDiv.innerHTML = `
+      ${engineLabel}
       ${data.mood ? `<span class="flames-msg-mood-tag">✨ Mood: ${data.mood}</span>` : ''}
-      <div>${data.message}</div>
+      <div style="margin: 4px 0 8px 0;">${data.message}</div>
       ${cardsHtml}
     `;
 
