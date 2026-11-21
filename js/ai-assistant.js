@@ -77,10 +77,14 @@
 
       <div class="flames-ai-chips" id="flames-ai-chips">
         <button class="flames-chip" data-mood="Feeling exhausted after a long day, need warm comforting food">🛋️ Comfort Food</button>
-        <button class="flames-chip" data-mood="Craving spicy chatpata street food with bold flavors">🌶️ Spicy Street Food</button>
-        <button class="flames-chip" data-mood="Want something healthy, light and high-protein">🥗 Healthy & Light</button>
+        <button class="flames-chip" data-mood="Craving cheesy Italian wood-fired pizza and creamy pasta">🍕 Pizza & Pasta</button>
+        <button class="flames-chip" data-mood="Craving Asian wok noodles, dim sum and spicy schezwan">🥢 Asian & Dim Sum</button>
+        <button class="flames-chip" data-mood="Want a juicy gourmet burger with crispy fries">🍔 Burger & Fries</button>
+        <button class="flames-chip" data-mood="Need Mexican loaded nachos and crispy tacos">🌮 Mexican Fiesta</button>
+        <button class="flames-chip" data-mood="Craving spicy chatpata street food with bold flavors">🌶️ Street Food</button>
+        <button class="flames-chip" data-mood="Want something healthy, light and high-protein">🥗 Healthy & Fit</button>
         <button class="flames-chip" data-mood="Grand celebration with family and friends, want a feast">🎉 Celebration Feast</button>
-        <button class="flames-chip" data-mood="I have a sweet craving, show me traditional desserts and shakes">🍨 Sweet Indulgence</button>
+        <button class="flames-chip" data-mood="I have a sweet craving, show me artisanal desserts and shakes">🍨 Sweet Indulgence</button>
         <button class="flames-chip" data-mood="Crisp and authentic South Indian morning or evening cravings">🥞 South Indian</button>
       </div>
 

@@ -156,10 +156,34 @@ function getHeuristicRecommendations(userMessage, menuItems) {
       preferredDishes: ['Crispy Masala Dosa', 'Idli & Medu Vada Combo', 'Kesari Mango Lassi']
     },
     {
-      keywords: ['sweet', 'dessert', 'meetha', 'sugar', 'midnight', 'ice cream', 'shake', 'drink', 'beverage'],
-      mood: 'Sweet Indulgence & Refreshment',
-      message: 'Treat yourself to rich traditional Indian sweets and luscious fruit-infused sips.',
-      preferredDishes: ['Hot Gulab Jamun (2 Pcs)', 'Kesari Mango Lassi']
+      keywords: ['pizza', 'pasta', 'italian', 'cheese', 'cheesy', 'alfredo', 'margherita', 'sourdough', 'fettuccine', 'arbiatta'],
+      mood: 'Italian Artisan & Wood-Fired Cravings',
+      message: 'Melted buffalo mozzarella, fresh basil, and hand-rolled pasta — perfect for a cozy European dining experience!',
+      preferredDishes: ['Classic Margherita Pizza', 'Creamy Fettuccine Alfredo', 'Farmhouse Veggie Supreme Pizza', 'Cheesy Garlic Sourdough Bread']
+    },
+    {
+      keywords: ['asian', 'chinese', 'thai', 'noodles', 'dim sum', 'dumpling', 'pad thai', 'schezwan', 'wok', 'tofu', 'spring roll'],
+      mood: 'Pan-Asian Wok & Dim Sum Delights',
+      message: 'Aromatic wok-tossed noodles, delicate steamed dumplings, and authentic sweet-savory Thai sauces!',
+      preferredDishes: ['Steamed Vegetable Dim Sum', 'Authentic Pad Thai Noodles', 'Hakka Vegetable Noodles', 'Spicy Schezwan Fried Rice']
+    },
+    {
+      keywords: ['burger', 'sandwich', 'brioche', 'fries', 'toastie', 'melt', 'american', 'portobello'],
+      mood: 'Gourmet Burgers & Artisan Sandwiches',
+      message: 'Stacked high with crispy patties, melted cheddar, and secret sauces for ultimate handheld satisfaction!',
+      preferredDishes: ['Crispy Paneer Royale Burger', 'Classic Gourmet Veggie Burger', 'Truffle & Peri Peri Fries', 'Grilled Mumbai Toastie Sandwich']
+    },
+    {
+      keywords: ['mexican', 'nachos', 'taco', 'tacos', 'burrito', 'quesadilla', 'guacamole', 'fiesta', 'salsa'],
+      mood: 'Mexican Fiesta & Zesty Cravings',
+      message: 'Crunchy stone-ground nachos, zesty fresh guacamole, and cheesy folded quesadillas to spice up your day!',
+      preferredDishes: ['Loaded Fiesta Nachos', 'Crispy Veggie Tacos (3 Pcs)', 'Grilled Black Bean Burrito', 'Cheesy Bell Pepper Quesadilla']
+    },
+    {
+      keywords: ['sweet', 'dessert', 'meetha', 'sugar', 'midnight', 'ice cream', 'shake', 'drink', 'beverage', 'chocolate', 'tiramisu', 'cheesecake'],
+      mood: 'Sweet Indulgence & Artisanal Treats',
+      message: 'Treat yourself to decadent espresso tiramisu, molten lava cakes, and velvety shakes!',
+      preferredDishes: ['Molten Chocolate Lava Cake', 'Classic Italian Tiramisu', 'Hot Gulab Jamun (2 Pcs)', 'Belgian Dark Chocolate Shake']
     }
   ];
 
@@ -223,7 +247,21 @@ function getDishReason(dishName, mood) {
     'Mumbai Style Pav Bhaji': 'Mashed buttery vegetable bhaji packed with rich street flavors, served with toasted pav.',
     'Dahi Samosa Chaat': 'Crispy crushed samosas topped with chilled sweet curd, tangy tamarind, mint sauce, and crunchy sev.',
     'Hot Gulab Jamun (2 Pcs)': 'Warm milk-solid dumplings soaked in aromatic rose and cardamom sugar syrup.',
-    'Kesari Mango Lassi': 'Chilled, thick sweet yogurt shake blended with Alphonso mango pulp and pistachios.'
+    'Kesari Mango Lassi': 'Chilled, thick sweet yogurt shake blended with Alphonso mango pulp and pistachios.',
+    'Classic Margherita Pizza': 'Crisp wood-fired crust with San Marzano sauce and melted buffalo mozzarella for pure Italian bliss.',
+    'Farmhouse Veggie Supreme Pizza': 'Loaded with crunchy veggies and mozzarella for a joyful, colorful slice.',
+    'Creamy Fettuccine Alfredo': 'Silky parmesan and roasted garlic cream that warms up any mood instantly.',
+    'Cheesy Garlic Sourdough Bread': 'Warm, golden melted garlic butter pull-apart bread for comforting cravings.',
+    'Steamed Vegetable Dim Sum': 'Delicate, steaming dumplings bursting with crisp water chestnuts and shiitake.',
+    'Authentic Pad Thai Noodles': 'Sweet-tangy tamarind wok noodles with peanuts and fresh lime to awaken your senses.',
+    'Hakka Vegetable Noodles': 'Comforting Indo-Chinese wok noodles tossed with crunchy peppers and scallions.',
+    'Classic Gourmet Veggie Burger': 'Juicy handcrafted patty with secret sauce and melted cheese for handheld comfort.',
+    'Crispy Paneer Royale Burger': 'Panko-crusted crispy paneer with chipotle slaw that satisfies deep hunger.',
+    'Loaded Fiesta Nachos': 'Heaped with warm queso, black beans, and guacamole — ultimate party mood food.',
+    'Crispy Veggie Tacos (3 Pcs)': 'Crunchy shells bursting with zesty salsa and beans for a fiesta of flavors.',
+    'Molten Chocolate Lava Cake': 'Warm decadent chocolate cake with a flowing molten core to lift your spirits.',
+    'Classic Italian Tiramisu': 'Espresso-infused ladyfingers and whipped mascarpone cream for an elegant treat.',
+    'Belgian Dark Chocolate Shake': 'Thick, frosty dark chocolate bliss topped with artisanal gelato.'
   };
 
   return reasons[dishName] || 'A signature restaurant specialty chosen specifically to elevate your mood tonight.';
