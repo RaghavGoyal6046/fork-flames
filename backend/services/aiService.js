@@ -38,6 +38,7 @@ async function getRecommendations(userMessage, menuItems) {
 
 /**
  * Calls Google Gemini API with Grounded Context and JSON output
+ * Tries high-speed gemini-3.5-flash-lite first, then falls back to gemini-3.5-flash
  */
 async function callGeminiAPI(userMessage, menuItems, apiKey) {
   const catalogContext = menuItems.map(item => ({
@@ -68,55 +69,70 @@ Respond in STRICT JSON with this exact schema:
   ]
 }`;
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const candidateModels = ['gemini-3.5-flash-lite', 'gemini-3.5-flash', 'gemini-3.8-flash'];
+  let lastError = null;
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{
-        parts: [{ text: `${SYSTEM_PROMPT}\n\n${prompt}` }]
-      }],
-      generationConfig: {
-        temperature: 0.2, // Low temperature for deterministic, strictly grounded recommendations
-        responseMimeType: 'application/json'
+  for (const model of candidateModels) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: `${SYSTEM_PROMPT}\n\n${prompt}` }]
+          }],
+          generationConfig: {
+            temperature: 0.2, // Low temperature for deterministic, strictly grounded recommendations
+            responseMimeType: 'application/json'
+          }
+        }),
+        signal: AbortSignal.timeout(10000) // 10 second timeout per attempt
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Gemini ${model} error (${response.status}): ${errorText}`);
       }
-    }),
-    signal: AbortSignal.timeout(8000) // 8 second timeout
-  });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Gemini API error (${response.status}): ${errorText}`);
+      const data = await response.json();
+      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) throw new Error(`Empty response from Gemini ${model}`);
+
+      const parsed = JSON.parse(rawText);
+
+      // Hydrate recommendations with complete DB fields (image, price, category)
+      const hydrated = (parsed.recommendations || []).map(rec => {
+        const original = menuItems.find(m => m._id.toString() === rec.id || m.name.toLowerCase() === (rec.name || '').toLowerCase());
+        if (!original) return null;
+        return {
+          id: original._id,
+          name: original.name,
+          category: original.category,
+          price: original.price,
+          image: original.image,
+          description: original.description,
+          reason: rec.reason
+        };
+      }).filter(Boolean);
+
+      if (hydrated.length > 0) {
+        return {
+          mood: parsed.mood || 'Personalized Dining',
+          message: parsed.message || 'Here are our chef picks tailored to your mood tonight:',
+          recommendations: hydrated,
+          source: 'gemini-ai',
+          model: model
+        };
+      }
+    } catch (err) {
+      console.warn(`[AI Engine] Model ${model} attempt failed:`, err.message);
+      lastError = err;
+    }
   }
 
-  const data = await response.json();
-  const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!rawText) throw new Error('Empty response from Gemini');
-
-  const parsed = JSON.parse(rawText);
-
-  // Hydrate recommendations with complete DB fields (image, price, category)
-  const hydrated = (parsed.recommendations || []).map(rec => {
-    const original = menuItems.find(m => m._id.toString() === rec.id || m.name.toLowerCase() === rec.name.toLowerCase());
-    if (!original) return null;
-    return {
-      id: original._id,
-      name: original.name,
-      category: original.category,
-      price: original.price,
-      image: original.image,
-      description: original.description,
-      reason: rec.reason
-    };
-  }).filter(Boolean);
-
-  return {
-    mood: parsed.mood || 'Personalized Dining',
-    message: parsed.message || 'Here are our chef picks tailored to your mood tonight:',
-    recommendations: hydrated,
-    source: 'gemini-ai'
-  };
+  throw lastError || new Error('All Gemini candidate models failed');
 }
 
 /**
