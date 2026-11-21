@@ -65,6 +65,7 @@ const reviews = require('./routes/reviewRoutes');
 const bookings = require('./routes/bookingRoutes');
 const users = require('./routes/userRoutes');
 const categories = require('./routes/categoryRoutes');
+const ai = require('./routes/aiRoutes');
 
 // Mount routers
 app.use('/api/auth', auth);
@@ -74,6 +75,7 @@ app.use('/api/reviews', reviews);
 app.use('/api/bookings', bookings);
 app.use('/api/users', users);
 app.use('/api/categories', categories);
+app.use('/api/ai', ai);
 
 const PORT = process.env.PORT || 5000;
 

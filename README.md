@@ -9,6 +9,7 @@ A beautiful, modern, full-stack restaurant management and online ordering web ap
 ## ✨ Features
 
 ### 👤 Customer Experience
+* **🤖 Flames AI Food Concierge**: Intelligent mood-based culinary sommelier. Tell the AI how you feel (stressed, celebratory, healthy, spicy cravings) and receive grounded dish recommendations from the live menu with 1-click cart addition.
 * **Responsive Landing Page**: Sleek and modern design featuring dynamic customer testimonials fetched from the database.
 * **Interactive Menu**: Browse dishes organized by category with smooth ScrollSpy navigation, real-time cart addition, and price calculations.
 * **Online Ordering**: Seamless cart system that calculates subtotals, taxes, and delivery fees.
@@ -19,6 +20,7 @@ A beautiful, modern, full-stack restaurant management and online ordering web ap
 * **Menu Management**: Create, update, and delete menu items, including uploading dish images via Cloudinary.
 * **Category Control**: Organize dishes by adding or removing food categories with icons.
 * **Order Monitoring**: View and update order statuses (e.g., pending, cooking, out for delivery) in real-time.
+* **Sentiment Analysis**: Automatic rule-based sentiment classification on customer reviews.
 
 ---
 
@@ -28,11 +30,14 @@ A beautiful, modern, full-stack restaurant management and online ordering web ap
 * **Markup & Layout**: HTML5, Semantic Structure
 * **Styling**: Vanilla CSS3 (Custom Design Tokens, Glassmorphism, Responsive Grid Systems, Smooth Animations)
 * **Logic**: Vanilla JavaScript (Async API Fetching, state storage in `localStorage`)
+* **AI Client**: Custom lightweight Floating AI Concierge Widget with grounded card rendering
 * **Icons**: FontAwesome v6.4.0
 
-### Backend & Database
+### Backend & AI Engine
 * **Runtime**: Node.js
 * **Framework**: Express (REST API)
+* **AI & LLM Integration**: Google Gemini API (`gemini-1.5-flash`) with Strict JSON Output & Catalog Grounding Context
+* **Fault Tolerance**: Heuristic Mood Semantic Parser Fallback for zero-downtime offline execution
 * **Database**: MongoDB (using Mongoose ODM) with fallback to **mongodb-memory-server** for zero-configuration local runs
 * **Auth**: JWT (JSON Web Tokens) & bcryptjs for password hashing
 * **File Uploads**: Multer & Cloudinary integration for cloud-based media storage
